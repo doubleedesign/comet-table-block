@@ -1,19 +1,13 @@
 <?php
 /**
- * Plugin Name: Flexible Table Block
- * Description: Easily create flexible configuration tables.
- * Requires at least: 6.5
- * Requires PHP: 7.4
- * Version: 3.4.0
- * Author: Aki Hamano
- * Author URI: https://github.com/t-hamano
- * License: GPL2 or later
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: flexible-table-block
- *
- * @package Flexible_Table_Block
- * @author Aki Hamano
- * @license GPL-2.0+
+ * Plugin Name: Comet Components Table Block
+ * Description: Enables advanced table creation in the block editor, with Comet Components used for front-end rendering. Forked from Flexible Table Block by Aki Hamano.
+ * Requires at least: 6.7.1
+ * Requires PHP: 8.2
+ * Version: 0.0.1
+ * Author: Double-E Design
+ * Text Domain: comet
+ * Requires plugins: comet-plugin
  */
 
 defined( 'ABSPATH' ) || exit;

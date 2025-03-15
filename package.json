@@ -1,26 +1,22 @@
 {
-	"name": "flexible-table-block",
-	"version": "3.4.0",
-	"description": "The custom block plugin for the WordPress block editor that allows you to create tables with flexible configurations.",
-	"author": "Aki Hamano",
+	"name": "comet-table-block",
+	"version": "0.0.1",
+	"description": "Enables advanced table creation in the block editor, with Comet Components used for front-end rendering. Forked from Flexible Table Block by Aki Hamano.",
+	"author": "Double-E Design",
 	"license": "GPL-2.0-or-later",
 	"keywords": [
 		"gutenberg",
 		"block",
 		"table"
 	],
-	"homepage": "https://github.com/t-hamano/flexible-table-block",
-	"repository": "git+https://github.com/t-hamano/flexible-table-block.git",
+	"homepage": "https://github.com/doubleedesign/comet-table-block",
+	"repository": "git+https://github.com/doubleedesign/comet-table-block.git",
 	"bugs": {
-		"url": "https://github.com/t-hamano/flexible-table-block/issues"
+		"url": "https://github.com/doubleedesign/comet-table-block/issues"
 	},
 	"engines": {
 		"node": ">=20.0.0",
 		"npm": ">=10.0.0"
-	},
-	"volta": {
-		"node": "20.11.1",
-		"npm": "10.5.0"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.13.3",
@@ -35,9 +31,7 @@
 		"@wordpress/notices": "5.10.0",
 		"@wordpress/scripts": "^27.9.0",
 		"clsx": "2.1.1",
-		"husky": "^9.1.6",
 		"lint-staged": "15.2.10",
-		"prettier": "npm:wp-prettier@3.0.3",
 		"typescript": "^5.6.3"
 	},
 	"scripts": {
@@ -57,24 +51,6 @@
 		"test": "npm run lint:js && npm run test:e2e && npm run test:unit",
 		"test:unit": "wp-scripts test-unit-js --config test/unit/jest.config.js",
 		"test:e2e": "wp-scripts test-playwright",
-		"test:e2e:debug": "wp-scripts test-playwright --debug",
-		"prepare": "husky"
-	},
-	"lint-staged": {
-		"*.{js,json,ts,tsx,yml,yaml}": [
-			"wp-scripts format"
-		],
-		"*.{js,ts,tsx}": [
-			"wp-scripts lint-js"
-		],
-		"*.scss": [
-			"wp-scripts lint-style"
-		],
-		"*.md": [
-			"wp-scripts lint-md-docs"
-		],
-		"package.json": [
-			"wp-scripts lint-pkg-json"
-		]
+		"test:e2e:debug": "wp-scripts test-playwright --debug"
 	}
 }
