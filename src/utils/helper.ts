@@ -29,6 +29,7 @@ export function cleanEmptyObject( object: {} ): {} | undefined {
 	const cleanedNestedObjects = Object.entries( object )
 		.map( ( [ key, value ] ) => [ key, cleanEmptyObject( value ) ] )
 		.filter( ( [ , value ] ) => value !== undefined );
+
 	return ! cleanedNestedObjects.length ? undefined : Object.fromEntries( cleanedNestedObjects );
 }
 
@@ -74,9 +75,11 @@ export function sanitizeUnitValue(
 
 	if ( isNaN( num ) ) {
 		return '';
-	} else if ( num < 0 ) {
+	}
+	else if ( num < 0 ) {
 		return '';
-	} else if ( num === 0 ) {
+	}
+	else if ( num === 0 ) {
 		return '0';
 	}
 
@@ -140,10 +143,12 @@ export function toInteger( value: number | string | undefined, defaultValue = 0 
  * @param rowColSpan rowspan/colspan value.
  * @return normalized rowspan/colspan value.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function normalizeRowColSpan( rowColSpan: any ) {
 	const parsedValue = parseInt( rowColSpan, 10 );
 	if ( ! Number.isInteger( parsedValue ) ) {
 		return undefined;
 	}
+
 	return parsedValue < 0 || parsedValue === 1 ? undefined : parsedValue.toString();
 }

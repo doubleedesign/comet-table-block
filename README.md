@@ -15,7 +15,16 @@ You can install this repo straight into your `wp-content/plugins` directory and 
 
 ### How to recompile
 
-```sh
+```bash
 npm install
 npm run build
+```
+
+### Development mode
+
+Rebuild upon file changes:
+
+```bash
+npm install
+npm run start
 ```

@@ -1,31 +1,16 @@
 {
   "apiVersion": 3,
-  "name": "flexible-table-block/table",
-  "title": "Flexible Table",
+  "name": "comet/table",
+  "title": "Table",
   "category": "text",
   "keywords": [
     "table",
     "cell",
     "data"
   ],
-  "description": "Create a flexible configuration table.",
-  "textdomain": "flexible-table-block",
+  "description": "Create structured content in rows and columns to display tabular data.",
+  "textdomain": "comet",
   "attributes": {
-    "contentJustification": {
-      "type": "string"
-    },
-    "hasFixedLayout": {
-      "type": "boolean",
-      "default": true
-    },
-    "isScrollOnPc": {
-      "type": "boolean",
-      "default": false
-    },
-    "isScrollOnMobile": {
-      "type": "boolean",
-      "default": false
-    },
     "isStackedOnMobile": {
       "type": "boolean",
       "default": false
@@ -39,7 +24,7 @@
       "selector": "table",
       "attribute": "style"
     },
-    "captionSide": {
+    "captionPosition": {
       "type": "string",
       "default": "bottom"
     },
@@ -255,41 +240,7 @@
     }
   },
   "supports": {
-    "anchor": true,
-    "align": [
-      "left",
-      "right",
-      "wide",
-      "full"
-    ],
-    "color": {
-      "__experimentalSkipSerialization": [
-        "text",
-        "background",
-        "gradients"
-      ],
-      "gradients": true,
-      "link": true
-    },
-    "typography": {
-      "fontSize": true,
-      "lineHeight": true,
-      "__experimentalFontFamily": true,
-      "__experimentalTextTransform": true,
-      "__experimentalFontStyle": true,
-      "__experimentalFontWeight": true,
-      "__experimentalLetterSpacing": true,
-      "__experimentalDefaultControls": {
-        "fontSize": false
-      }
-    },
-    "spacing": {
-      "margin": true,
-      "__experimentalDefaultControls": {
-        "margin": false
-      }
-    },
-    "__experimentalSelector": ".wp-block-flexible-table-block-table > table"
+    "anchor": true
   },
   "editorScript": "flexible-table-block-editor",
   "editorStyle": "flexible-table-block-editor",

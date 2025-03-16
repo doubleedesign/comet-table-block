@@ -33,6 +33,7 @@ import ColorIndicatorButton from './color-indicator-button';
 type Props = {
 	label: string | ReactElement;
 	help?: string;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	onChange: ( event: any ) => void;
 	colors?: {
 		name: string;
@@ -57,6 +58,7 @@ export default function ColorControl( {
 			blockEditorStore
 			// @ts-ignore
 		).getSettings();
+
 		return settings?.colors ?? [];
 	}, [] );
 

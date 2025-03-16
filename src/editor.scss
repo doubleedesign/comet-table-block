@@ -1,14 +1,10 @@
-@import "settings/global-settings/style";
 @import "controls/style";
 
-.editor-styles-wrapper .wp-block-flexible-table-block-table {
+.editor-styles-wrapper .wp-block-comet-table {
 	box-sizing: border-box;
 
 	> table {
-
-		&.has-fixed-layout {
-			table-layout: fixed;
-		}
+		width: 100%;
 
 		thead,
 		tbody,

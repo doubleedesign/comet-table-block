@@ -53,7 +53,7 @@ const v1 = {
 			selector: 'table',
 			attribute: 'style',
 		},
-		captionSide: {
+		captionPosition: {
 			type: 'string',
 			default: 'bottom',
 		},
@@ -284,7 +284,7 @@ const v1 = {
 			body,
 			foot,
 			caption,
-			captionSide,
+			captionPosition,
 			captionStyles,
 		} = attributes;
 
@@ -357,7 +357,7 @@ const v1 = {
 
 		return (
 			<figure { ...blockProps }>
-				{ hasCaption && 'top' === captionSide && <Caption /> }
+				{ hasCaption && 'top' === captionPosition && <Caption /> }
 				<table
 					className={ tableClasses ?? undefined }
 					style={ { ...tableStylesObj, ...colorProps.style } }
@@ -366,7 +366,7 @@ const v1 = {
 					<Section type="body" rows={ body } />
 					<Section type="foot" rows={ foot } />
 				</table>
-				{ hasCaption && 'bottom' === captionSide && <Caption /> }
+				{ hasCaption && 'bottom' === captionPosition && <Caption /> }
 			</figure>
 		);
 	},

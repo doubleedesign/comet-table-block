@@ -23,15 +23,15 @@ import type { VSelectedCells, VSelectedLine } from '../utils/table-state';
 
 type Props = {
 	attributes: BlockAttributes;
-	setAttributes: ( attrs: Partial< BlockAttributes > ) => void;
-	insertBlocksAfter: ( blocks: BlockInstance[] ) => void;
-	setSelectedLine: Dispatch< SetStateAction< VSelectedLine > >;
-	setSelectedCells: Dispatch< SetStateAction< VSelectedCells > >;
+	setAttributes: (attrs: Partial<BlockAttributes>) => void;
+	insertBlocksAfter: (blocks: BlockInstance[]) => void;
+	setSelectedLine: Dispatch<SetStateAction<VSelectedLine>>;
+	setSelectedCells: Dispatch<SetStateAction<VSelectedCells>>;
 	captionStylesObj: Properties;
 	isSelected?: boolean;
 };
 
-export default function TableCaption( {
+export default function TableCaption({
 	attributes,
 	setAttributes,
 	insertBlocksAfter,
@@ -39,74 +39,75 @@ export default function TableCaption( {
 	setSelectedCells,
 	captionStylesObj,
 	isSelected,
-}: Props ) {
+}: Props) {
 	const { caption = '' } = attributes;
-	const prevCaption = usePrevious( caption );
-	const isCaptionEmpty = RichText.isEmpty( caption );
-	const isPrevCaptionEmpty = RichText.isEmpty( prevCaption || '' );
-	const [ showCaption, setShowCaption ] = useState( ! isCaptionEmpty );
+	const prevCaption = usePrevious(caption);
+	const isCaptionEmpty = RichText.isEmpty(caption);
+	const isPrevCaptionEmpty = RichText.isEmpty(prevCaption || '');
+	const [showCaption, setShowCaption] = useState(!isCaptionEmpty);
 
-	const onChange = ( value: string | undefined ) => setAttributes( { caption: value } );
+	const onChange = (value: string | undefined) => setAttributes({ caption: value });
 
-	useEffect( () => {
-		if ( ! isCaptionEmpty && isPrevCaptionEmpty ) {
-			setShowCaption( true );
+	useEffect(() => {
+		if (!isCaptionEmpty && isPrevCaptionEmpty) {
+			setShowCaption(true);
 		}
-	}, [ isCaptionEmpty, isPrevCaptionEmpty ] );
+	}, [isCaptionEmpty, isPrevCaptionEmpty]);
 
-	useEffect( () => {
-		if ( ! isSelected && isCaptionEmpty ) {
-			setShowCaption( false );
+	useEffect(() => {
+		if (!isSelected && isCaptionEmpty) {
+			setShowCaption(false);
 		}
-	}, [ isSelected, isCaptionEmpty ] );
+	}, [isSelected, isCaptionEmpty]);
 
 	const ref = useCallback(
-		( node: any ) => {
-			if ( node && isCaptionEmpty ) {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(node: any) => {
+			if (node && isCaptionEmpty) {
 				node?.focus();
 			}
 		},
-		[ isCaptionEmpty ]
+		[isCaptionEmpty]
 	);
 
 	return (
 		<>
-			{ isSelected && (
+			{isSelected && (
 				<BlockControls group="block">
 					<ToolbarButton
-						onClick={ () => {
-							setShowCaption( ! showCaption );
-							if ( showCaption && caption ) {
-								onChange( undefined );
+						onClick={() => {
+							setShowCaption(!showCaption);
+							if (showCaption && caption) {
+								onChange(undefined);
 							}
-						} }
-						icon={ captionIcon }
-						isPressed={ showCaption }
+						}}
+						icon={captionIcon}
+						isPressed={showCaption}
 						label={
 							showCaption
-								? __( 'Remove caption', 'flexible-table-block' )
-								: __( 'Add caption', 'flexible-table-block' )
+								? __('Remove caption', 'flexible-table-block')
+								: __('Add caption', 'flexible-table-block')
 						}
 					/>
 				</BlockControls>
-			) }
-			{ showCaption && ( ! RichText.isEmpty( caption ) || isSelected ) && (
+			)}
+			{showCaption && (!RichText.isEmpty(caption) || isSelected) && (
 				<RichText
-					aria-label={ __( 'Table caption text', 'flexible-table-block' ) }
-					placeholder={ __( 'Add caption', 'flexible-table-block' ) }
+					aria-label={__('Table caption text', 'flexible-table-block')}
+					placeholder={__('Add caption', 'flexible-table-block')}
 					tagName="figcaption"
-					style={ captionStylesObj }
-					value={ caption }
-					ref={ ref }
-					onChange={ onChange }
-					onFocus={ () => {
-						setSelectedLine( undefined );
-						setSelectedCells( undefined );
-					} }
+					style={captionStylesObj}
+					value={caption}
+					ref={ref}
+					onChange={onChange}
+					onFocus={() => {
+						setSelectedLine(undefined);
+						setSelectedCells(undefined);
+					}}
 					// @ts-ignore: `__unstableOnSplitAtEnd` prop is not exist at @types
-					__unstableOnSplitAtEnd={ () => insertBlocksAfter( createBlock( 'core/paragraph' ) ) }
+					__unstableOnSplitAtEnd={() => insertBlocksAfter(createBlock('core/paragraph'))}
 				/>
-			) }
+			)}
 		</>
 	);
 }

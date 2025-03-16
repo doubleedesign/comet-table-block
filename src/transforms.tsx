@@ -29,13 +29,16 @@ const transforms: Transforms = {
 					if ( ! section.length ) {
 						return section;
 					}
+
 					return section.map( ( row ) => {
 						if ( ! row.cells.length ) {
 							return row;
 						}
+
 						return {
 							cells: row.cells.map( ( cell ) => {
 								const { content, tag, colspan, rowspan } = cell;
+
 								return {
 									content,
 									tag,
@@ -91,6 +94,7 @@ const transforms: Transforms = {
 
 				// Convert to core table block attributes.
 				const sectionAttributes = Object.entries( vTable ).reduce(
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
 					( coreTableAttributes: any, [ sectionName, section ] ) => {
 						if ( ! section.length ) {
 							return coreTableAttributes;
@@ -109,6 +113,7 @@ const transforms: Transforms = {
 								} ) ),
 						} ) );
 						coreTableAttributes[ sectionName ] = newSection;
+
 						return coreTableAttributes;
 					},
 					{}

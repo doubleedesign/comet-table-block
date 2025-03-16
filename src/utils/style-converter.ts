@@ -48,6 +48,7 @@ export function convertToInline( stylesObj: Properties ): string {
 			if ( value !== undefined && ( typeof value === 'string' || value === 0 ) ) {
 				result.push( `${ property }:${ value };` );
 			}
+
 			return result;
 		},
 		[] as string[]

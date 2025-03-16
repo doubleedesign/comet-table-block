@@ -1,4 +1,4 @@
-.wp-block-flexible-table-block-table.wp-block-flexible-table-block-table {
+.wp-block-comet-table {
 	box-sizing: border-box;
 
 	> table {
@@ -30,28 +30,5 @@
 				max-width: 100%;
 			}
 		}
-	}
-
-	&.is-content-justification-left,
-	&.is-content-justification-center,
-	&.is-content-justification-right {
-		display: flex;
-		flex-flow: column;
-
-		figcaption {
-			align-self: stretch;
-		}
-	}
-
-	&.is-content-justification-left {
-		align-items: flex-start;
-	}
-
-	&.is-content-justification-center {
-		align-items: center;
-	}
-
-	&.is-content-justification-right {
-		align-items: flex-end;
 	}
 }

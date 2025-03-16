@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import clsx from 'clsx';
 import type { Properties } from 'csstype';
 
 /**
@@ -59,7 +58,7 @@ import {
 } from './icons';
 import type { BlockAttributes, SectionName, ContentJustifyValue } from './BlockAttributes';
 
-function TableEdit( props: BlockEditProps< BlockAttributes > ) {
+function TableEdit(props: BlockEditProps<BlockAttributes>) {
 	const {
 		attributes,
 		setAttributes,
@@ -67,200 +66,195 @@ function TableEdit( props: BlockEditProps< BlockAttributes > ) {
 		// @ts-ignore: `insertBlocksAfter` prop is not exist at @types
 		insertBlocksAfter,
 	} = props;
-	const { contentJustification, tableStyles, captionStyles, captionSide } = attributes;
-	const [ selectedCells, setSelectedCells ] = useState< VSelectedCells >( undefined );
-	const [ selectedLine, setSelectedLine ] = useState< VSelectedLine >( undefined );
+	const { contentJustification, tableStyles, captionStyles, captionPosition } = attributes;
+	const [selectedCells, setSelectedCells] = useState<VSelectedCells>(undefined);
+	const [selectedLine, setSelectedLine] = useState<VSelectedLine>(undefined);
 
-	const tableStylesObj: Properties = convertToObject( tableStyles );
-	const captionStylesObj: Properties = convertToObject( captionStyles );
-	const options = useSelect( ( select ) => {
-		const { getOptions }: { getOptions: () => StoreOptions } = select( STORE_NAME );
+	const tableStylesObj: Properties = convertToObject(tableStyles);
+	const captionStylesObj: Properties = convertToObject(captionStyles);
+	const options = useSelect((select) => {
+		const { getOptions }: { getOptions: () => StoreOptions } = select(STORE_NAME);
+
 		return getOptions();
-	}, [] );
-	const { createWarningNotice } = useDispatch( noticesStore );
+	}, []);
+	const { createWarningNotice } = useDispatch(noticesStore);
 	const blockEditingMode = useBlockEditingMode();
 	const isContentOnlyMode = blockEditingMode === 'contentOnly';
 
 	// Release cell selection.
-	useEffect( () => {
-		if ( ! isSingleSelected ) {
-			setSelectedCells( undefined );
-			setSelectedLine( undefined );
+	useEffect(() => {
+		if (!isSingleSelected) {
+			setSelectedCells(undefined);
+			setSelectedLine(undefined);
 		}
-	}, [ isSingleSelected ] );
+	}, [isSingleSelected]);
 
 	// Create virtual table object with the cells placed in positions based on how they actually look.
-	const vTable: VTable = toVirtualTable( attributes );
+	const vTable: VTable = toVirtualTable(attributes);
 
-	const onChangeContentJustification = ( value: ContentJustifyValue ) => {
+	const onChangeContentJustification = (value: ContentJustifyValue) => {
 		const newValue = contentJustification === value ? undefined : value;
-		setAttributes( { contentJustification: newValue } );
+		setAttributes({ contentJustification: newValue });
 	};
 
-	const onInsertRow = ( offset: number ) => {
-		if ( ! selectedCells || selectedCells.length !== 1 ) {
+	const onInsertRow = (offset: number) => {
+		if (!selectedCells || selectedCells.length !== 1) {
 			return;
 		}
 
-		const { sectionName, rowIndex, rowSpan } = selectedCells[ 0 ];
+		const { sectionName, rowIndex, rowSpan } = selectedCells[0];
 
 		// Calculate row index to be inserted considering rowspan of the selected cell.
 		const insertRowIndex = offset === 0 ? rowIndex : rowIndex + offset + rowSpan - 1;
 
-		const newVTable = insertRow( vTable, { sectionName, rowIndex: insertRowIndex } );
+		const newVTable = insertRow(vTable, { sectionName, rowIndex: insertRowIndex });
 
-		setAttributes( toTableAttributes( newVTable ) );
-		setSelectedCells( undefined );
-		setSelectedLine( undefined );
+		setAttributes(toTableAttributes(newVTable));
+		setSelectedCells(undefined);
+		setSelectedLine(undefined);
 	};
 
 	const onDeleteRow = () => {
-		if ( ! selectedCells || selectedCells.length !== 1 ) {
+		if (!selectedCells || selectedCells.length !== 1) {
 			return;
 		}
 
-		const { sectionName, rowIndex } = selectedCells[ 0 ];
+		const { sectionName, rowIndex } = selectedCells[0];
 
 		// Do not allow tbody to be empty for table with thead /tfoot sections.
 		if (
 			sectionName === 'body' &&
 			vTable.body.length === 1 &&
-			( ! isEmptySection( vTable.head ) || ! isEmptySection( vTable.foot ) )
+			(!isEmptySection(vTable.head) || !isEmptySection(vTable.foot))
 		) {
 			// @ts-ignore
 			createWarningNotice(
-				__( 'The table body must have one or more rows.', 'flexible-table-block' ),
+				__('The table body must have one or more rows.', 'comet'),
 				{
-					id: 'flexible-table-block-body-row',
+					id: 'comet-body-row',
 					type: 'snackbar',
 				}
 			);
+
 			return;
 		}
 
-		const newVTable = deleteRow( vTable, { sectionName, rowIndex } );
-		setAttributes( toTableAttributes( newVTable ) );
-		setSelectedCells( undefined );
-		setSelectedLine( undefined );
+		const newVTable = deleteRow(vTable, { sectionName, rowIndex });
+		setAttributes(toTableAttributes(newVTable));
+		setSelectedCells(undefined);
+		setSelectedLine(undefined);
 	};
 
-	const onInsertColumn = ( offset: number ) => {
-		if ( ! selectedCells || selectedCells.length !== 1 ) {
+	const onInsertColumn = (offset: number) => {
+		if (!selectedCells || selectedCells.length !== 1) {
 			return;
 		}
 
-		const { vColIndex, colSpan } = selectedCells[ 0 ];
+		const { vColIndex, colSpan } = selectedCells[0];
 
 		// Calculate column index to be inserted considering colspan of the selected cell.
 		const insertVColIndex = offset === 0 ? vColIndex : vColIndex + offset + colSpan - 1;
 
-		const newVTable = insertColumn( vTable, { vColIndex: insertVColIndex } );
+		const newVTable = insertColumn(vTable, { vColIndex: insertVColIndex });
 
-		setAttributes( toTableAttributes( newVTable ) );
-		setSelectedCells( undefined );
-		setSelectedLine( undefined );
+		setAttributes(toTableAttributes(newVTable));
+		setSelectedCells(undefined);
+		setSelectedLine(undefined);
 	};
 
 	const onDeleteColumn = () => {
-		if ( ! selectedCells || selectedCells.length !== 1 ) {
+		if (!selectedCells || selectedCells.length !== 1) {
 			return;
 		}
 
-		const { vColIndex } = selectedCells[ 0 ];
+		const { vColIndex } = selectedCells[0];
 
-		const newVTable = deleteColumn( vTable, { vColIndex } );
-		setAttributes( toTableAttributes( newVTable ) );
-		setSelectedCells( undefined );
-		setSelectedLine( undefined );
+		const newVTable = deleteColumn(vTable, { vColIndex });
+		setAttributes(toTableAttributes(newVTable));
+		setSelectedCells(undefined);
+		setSelectedLine(undefined);
 	};
 
 	const onMergeCells = () => {
-		const newVTable = mergeCells( vTable, selectedCells, options.merge_content );
-		setAttributes( toTableAttributes( newVTable ) );
-		setSelectedCells( undefined );
-		setSelectedLine( undefined );
+		const newVTable = mergeCells(vTable, selectedCells);
+		setAttributes(toTableAttributes(newVTable));
+		setSelectedCells(undefined);
+		setSelectedLine(undefined);
 	};
 
 	const onSplitMergedCells = () => {
-		const newVTable = splitMergedCells( vTable, selectedCells );
-		setAttributes( toTableAttributes( newVTable ) );
-		setSelectedCells( undefined );
-		setSelectedLine( undefined );
+		const newVTable = splitMergedCells(vTable, selectedCells);
+		setAttributes(toTableAttributes(newVTable));
+		setSelectedCells(undefined);
+		setSelectedLine(undefined);
 	};
 
-	const TableJustifyControls = CONTENT_JUSTIFY_CONTROLS.map( ( { icon, label, value } ) => ( {
+	const TableJustifyControls = CONTENT_JUSTIFY_CONTROLS.map(({ icon, label, value }) => ({
 		icon,
 		title: label,
 		isActive: contentJustification === value,
 		value,
-		onClick: () => onChangeContentJustification( value ),
-	} ) );
+		onClick: () => onChangeContentJustification(value),
+	}));
 
 	const TableEditControls = [
 		{
 			icon: tableRowBefore,
-			title: __( 'Insert row before', 'flexible-table-block' ),
-			isDisabled: ( selectedCells || [] ).length !== 1,
-			onClick: () => onInsertRow( 0 ),
+			title: __('Insert row before', 'comet'),
+			isDisabled: (selectedCells || []).length !== 1,
+			onClick: () => onInsertRow(0),
 		},
 		{
 			icon: tableRowAfter,
-			title: __( 'Insert row after', 'flexible-table-block' ),
-			isDisabled: ( selectedCells || [] ).length !== 1,
-			onClick: () => onInsertRow( 1 ),
+			title: __('Insert row after', 'comet'),
+			isDisabled: (selectedCells || []).length !== 1,
+			onClick: () => onInsertRow(1),
 		},
 		{
 			icon: tableRowDelete,
-			title: __( 'Delete row', 'flexible-table-block' ),
-			isDisabled: ( selectedCells || [] ).length !== 1,
+			title: __('Delete row', 'comet'),
+			isDisabled: (selectedCells || []).length !== 1,
 			onClick: () => onDeleteRow(),
 		},
 		{
 			icon: tableColumnBefore,
-			title: __( 'Insert column before', 'flexible-table-block' ),
-			isDisabled: ( selectedCells || [] ).length !== 1,
-			onClick: () => onInsertColumn( 0 ),
+			title: __('Insert column before', 'comet'),
+			isDisabled: (selectedCells || []).length !== 1,
+			onClick: () => onInsertColumn(0),
 		},
 		{
 			icon: tableColumnAfter,
-			title: __( 'Insert column after', 'flexible-table-block' ),
-			isDisabled: ( selectedCells || [] ).length !== 1,
-			onClick: () => onInsertColumn( 1 ),
+			title: __('Insert column after', 'comet'),
+			isDisabled: (selectedCells || []).length !== 1,
+			onClick: () => onInsertColumn(1),
 		},
 		{
 			icon: tableColumnDelete,
-			title: __( 'Delete column', 'flexible-table-block' ),
-			isDisabled: ( selectedCells || [] ).length !== 1,
+			title: __('Delete column', 'comet'),
+			isDisabled: (selectedCells || []).length !== 1,
 			onClick: () => onDeleteColumn(),
 		},
 		{
 			icon: tableSplitCell,
-			title: __( 'Split merged cells', 'flexible-table-block' ),
-			isDisabled: ! selectedCells || ! hasMergedCells( selectedCells ),
+			title: __('Split merged cells', 'comet'),
+			isDisabled: !selectedCells || !hasMergedCells(selectedCells),
 			onClick: () => onSplitMergedCells(),
 		},
 		{
 			icon: tableMergeCell,
-			title: __( 'Merge cells', 'flexible-table-block' ),
-			isDisabled: ! selectedCells || ! isRectangleSelected( selectedCells ),
+			title: __('Merge cells', 'comet'),
+			isDisabled: !selectedCells || !isRectangleSelected(selectedCells),
 			onClick: () => onMergeCells(),
 		},
 	];
 
-	const isEmpty: boolean = ! [ 'head', 'body', 'foot' ].filter(
-		( sectionName ) => ! isEmptySection( vTable[ sectionName as SectionName ] )
+	const isEmpty: boolean = !['head', 'body', 'foot'].filter(
+		(sectionName) => !isEmptySection(vTable[sectionName as SectionName])
 	).length;
 
-	const tablePlaceholderProps = useBlockProps();
+	const tablePlaceholderProps = useBlockProps({});
 
-	const tableFigureProps = useBlockProps( {
-		className: clsx( `is-caption-side-${ captionSide }`, {
-			[ `is-content-justification-${ contentJustification }` ]: contentJustification,
-			'show-dot-on-th': options.show_dot_on_th,
-			'show-control-button': options.show_control_button,
-			'is-content-only': isContentOnlyMode,
-		} ),
-	} );
+	const tableFigureProps = useBlockProps({});
 
 	const tableProps = {
 		attributes,
@@ -293,8 +287,8 @@ function TableEdit( props: BlockEditProps< BlockAttributes > ) {
 
 	const tableCellSettingsLabel: string =
 		selectedCells && selectedCells.length > 1
-			? __( 'Multi cells settings', 'flexible-table-block' )
-			: __( 'Cell settings', 'flexible-table-block' );
+			? __('Celected cells', 'comet')
+			: __('Selected cell', 'comet');
 
 	const tableCaptionProps = {
 		attributes,
@@ -314,59 +308,59 @@ function TableEdit( props: BlockEditProps< BlockAttributes > ) {
 
 	return (
 		<>
-			{ isEmpty && (
-				<div { ...tablePlaceholderProps }>
-					<TablePlaceholder { ...props } />
+			{isEmpty && (
+				<div {...tablePlaceholderProps}>
+					<TablePlaceholder {...props} />
 				</div>
-			) }
-			{ ! isEmpty && (
-				<figure { ...tableFigureProps }>
-					{ ! isContentOnlyMode && (
+			)}
+			{!isEmpty && (
+				<figure {...tableFigureProps}>
+					{!isContentOnlyMode && (
 						<>
 							<BlockControls group="block">
 								<ToolbarDropdownMenu
-									label={ __( 'Change table justification', 'flexible-table-block' ) }
+									label={__('Change table justification', 'comet')}
 									icon={
-										( contentJustification &&
+										(contentJustification &&
 											TableJustifyControls.find(
-												( control ) => control.value === contentJustification
-											)?.icon ) ||
+												(control) => control.value === contentJustification
+											)?.icon) ||
 										justifyLeft
 									}
-									controls={ TableJustifyControls }
+									controls={TableJustifyControls}
 								/>
 								<ToolbarDropdownMenu
-									label={ __( 'Edit table', 'flexible-table-block' ) }
-									icon={ blockTable }
-									controls={ TableEditControls }
+									label={__('Edit table', 'comet')}
+									icon={blockTable}
+									controls={TableEditControls}
 								/>
 							</BlockControls>
 						</>
-					) }
+					)}
 					<InspectorControls>
 						<PanelBody
-							title={ __( 'Table settings', 'flexible-table-block' ) }
-							initialOpen={ false }
+							title={__('Table layout', 'comet')}
+							initialOpen={false}
 						>
-							<TableSettings { ...tableSettingsProps } />
+							<TableSettings {...tableSettingsProps} />
 						</PanelBody>
-						{ selectedCells && !! selectedCells.length && (
-							<PanelBody title={ tableCellSettingsLabel } initialOpen={ false }>
-								<TableCellSettings { ...tableCellSettingsProps } />
-							</PanelBody>
-						) }
 						<PanelBody
-							title={ __( 'Caption settings', 'flexible-table-block' ) }
-							initialOpen={ false }
+							title={__('Table caption', 'comet')}
+							initialOpen={false}
 						>
-							<TableCaptionSettings { ...tableCaptionSettingProps } />
+							<TableCaptionSettings {...tableCaptionSettingProps} />
 						</PanelBody>
+						{selectedCells && !!selectedCells.length && (
+							<PanelBody title={tableCellSettingsLabel} initialOpen={false}>
+								<TableCellSettings {...tableCellSettingsProps} />
+							</PanelBody>
+						)}
 					</InspectorControls>
-					{ 'top' === captionSide && <TableCaption { ...tableCaptionProps } /> }
-					<Table { ...tableProps } />
-					{ 'bottom' === captionSide && <TableCaption { ...tableCaptionProps } /> }
+					{'top' === captionPosition && <TableCaption {...tableCaptionProps} />}
+					<Table {...tableProps} />
+					{'bottom' === captionPosition && <TableCaption {...tableCaptionProps} />}
 				</figure>
-			) }
+			)}
 		</>
 	);
 }

@@ -76,7 +76,8 @@ export default function TablePlaceholder( { setAttributes }: Props ) {
 		const parsedValue = parseInt( value, 10 );
 		if ( isNaN( parsedValue ) ) {
 			setColCount( undefined );
-		} else {
+		}
+		else {
 			setColCount( Math.max( 1, Math.min( MAX_PREVIEW_TABLE_COL, parsedValue ) ) );
 		}
 	};
@@ -85,7 +86,8 @@ export default function TablePlaceholder( { setAttributes }: Props ) {
 		const parsedValue = parseInt( value );
 		if ( isNaN( parsedValue ) ) {
 			setRowCount( undefined );
-		} else {
+		}
+		else {
 			setRowCount( Math.max( 1, Math.min( MAX_PREVIEW_TABLE_ROW, parsedValue ) ) );
 		}
 	};
@@ -111,11 +113,11 @@ export default function TablePlaceholder( { setAttributes }: Props ) {
 						? __(
 								'Hint: Hold <code>Command</code> key to select multiple cells. Hold <code>Shift</code> key to select the range.',
 								'flexible-table-block'
-						  )
+							)
 						: __(
 								'Hint: Hold <code>Ctrl</code> key to select multiple cells. Hold <code>Shift</code> key to select the range.',
 								'flexible-table-block'
-						  ),
+							),
 					{ code: <code /> }
 				) }
 			</div>

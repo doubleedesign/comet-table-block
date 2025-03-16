@@ -19,13 +19,12 @@ import edit from './edit';
 import save from './save';
 import transforms from './transforms';
 import deprecated from './deprecated';
-import { GlobalSettings } from './settings';
 
 // Register block.
 const config = {
-	title: __( 'Flexible Table', 'flexible-table-block' ),
+	title: __('Table', 'comet'),
 	category: 'text',
-	description: __( 'Create a flexible configuration table.', 'flexible-table-block' ),
+	description: __('Create structured content in rows and columns to display tabular data.', 'comet'),
 	icon,
 	example,
 	transforms,
@@ -35,33 +34,31 @@ const config = {
 	styles: [
 		{
 			name: 'stripes',
-			label: __( 'Stripes', 'flexible-table-block' ),
+			label: __('Stripes', 'comet'),
 		},
 	],
 };
-registerBlockType( metadata.name, config );
+registerBlockType(metadata.name, config);
 
-const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
-	return ( props ) => {
+const withInspectorControls = createHigherOrderComponent((BlockEdit) => {
+	return (props) => {
 		const { name } = props;
 
-		if ( name !== 'flexible-table-block/table' ) {
-			return <BlockEdit { ...props } />;
+		if (name !== 'comet/table') {
+			return <BlockEdit {...props} />;
 		}
 
 		return (
 			<>
-				<InspectorControls>
-					<GlobalSettings />
-				</InspectorControls>
-				<BlockEdit { ...props } />
+				<InspectorControls/>
+				<BlockEdit {...props} />
 			</>
 		);
 	};
-}, 'withInspectorControl' );
+}, 'withInspectorControl');
 
 addFilter(
 	'editor.BlockEdit',
-	'flexible-table-block/withInspectorControls',
+	'comet/tableWithInspectorControls',
 	withInspectorControls
 );
