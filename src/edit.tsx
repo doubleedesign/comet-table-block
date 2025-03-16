@@ -1,14 +1,8 @@
 /**
- * External dependencies
- */
-import type { Properties } from 'csstype';
-
-/**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
 import { useEffect, useState } from '@wordpress/element';
-import { useSelect, useDispatch } from '@wordpress/data';
 import {
 	InspectorControls,
 	BlockControls,
@@ -17,18 +11,16 @@ import {
 	useBlockEditingMode,
 } from '@wordpress/block-editor';
 import { ToolbarDropdownMenu, PanelBody } from '@wordpress/components';
-import { blockTable, justifyLeft } from '@wordpress/icons';
-import { store as noticesStore } from '@wordpress/notices';
+import { blockTable } from '@wordpress/icons';
 import type { BlockEditProps } from '@wordpress/blocks';
 
 /**
  * Internal dependencies
  */
 import './editor.scss';
-import { CONTENT_JUSTIFY_CONTROLS } from './constants';
-import { STORE_NAME, type StoreOptions } from './store';
+
 import { TableSettings, TableCaptionSettings, TableCellSettings } from './settings';
-import { Table, TablePlaceholder, TableCaption } from './elements';
+import { Table, TablePlaceholder } from './elements';
 import {
 	insertRow,
 	deleteRow,
@@ -45,7 +37,6 @@ import {
 	type VSelectedLine,
 	type VSelectedCells,
 } from './utils/table-state';
-import { convertToObject } from './utils/style-converter';
 import {
 	tableRowAfter,
 	tableRowBefore,
@@ -56,28 +47,16 @@ import {
 	tableMergeCell,
 	tableSplitCell,
 } from './icons';
-import type { BlockAttributes, SectionName, ContentJustifyValue } from './BlockAttributes';
+import type { BlockAttributes, SectionName } from './BlockAttributes';
 
 function TableEdit(props: BlockEditProps<BlockAttributes>) {
 	const {
 		attributes,
 		setAttributes,
-		isSelected: isSingleSelected,
-		// @ts-ignore: `insertBlocksAfter` prop is not exist at @types
-		insertBlocksAfter,
+		isSelected: isSingleSelected
 	} = props;
-	const { contentJustification, tableStyles, captionStyles, captionPosition } = attributes;
 	const [selectedCells, setSelectedCells] = useState<VSelectedCells>(undefined);
 	const [selectedLine, setSelectedLine] = useState<VSelectedLine>(undefined);
-
-	const tableStylesObj: Properties = convertToObject(tableStyles);
-	const captionStylesObj: Properties = convertToObject(captionStyles);
-	const options = useSelect((select) => {
-		const { getOptions }: { getOptions: () => StoreOptions } = select(STORE_NAME);
-
-		return getOptions();
-	}, []);
-	const { createWarningNotice } = useDispatch(noticesStore);
 	const blockEditingMode = useBlockEditingMode();
 	const isContentOnlyMode = blockEditingMode === 'contentOnly';
 
@@ -91,11 +70,6 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 
 	// Create virtual table object with the cells placed in positions based on how they actually look.
 	const vTable: VTable = toVirtualTable(attributes);
-
-	const onChangeContentJustification = (value: ContentJustifyValue) => {
-		const newValue = contentJustification === value ? undefined : value;
-		setAttributes({ contentJustification: newValue });
-	};
 
 	const onInsertRow = (offset: number) => {
 		if (!selectedCells || selectedCells.length !== 1) {
@@ -120,24 +94,6 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 		}
 
 		const { sectionName, rowIndex } = selectedCells[0];
-
-		// Do not allow tbody to be empty for table with thead /tfoot sections.
-		if (
-			sectionName === 'body' &&
-			vTable.body.length === 1 &&
-			(!isEmptySection(vTable.head) || !isEmptySection(vTable.foot))
-		) {
-			// @ts-ignore
-			createWarningNotice(
-				__('The table body must have one or more rows.', 'comet'),
-				{
-					id: 'comet-body-row',
-					type: 'snackbar',
-				}
-			);
-
-			return;
-		}
 
 		const newVTable = deleteRow(vTable, { sectionName, rowIndex });
 		setAttributes(toTableAttributes(newVTable));
@@ -188,14 +144,6 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 		setSelectedCells(undefined);
 		setSelectedLine(undefined);
 	};
-
-	const TableJustifyControls = CONTENT_JUSTIFY_CONTROLS.map(({ icon, label, value }) => ({
-		icon,
-		title: label,
-		isActive: contentJustification === value,
-		value,
-		onClick: () => onChangeContentJustification(value),
-	}));
 
 	const TableEditControls = [
 		{
@@ -260,9 +208,7 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 		attributes,
 		setAttributes,
 		isSelected: isSingleSelected,
-		options,
 		vTable,
-		tableStylesObj,
 		selectedCells,
 		setSelectedCells,
 		selectedLine,
@@ -276,7 +222,6 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 		vTable,
 		setSelectedCells,
 		setSelectedLine,
-		tableStylesObj,
 	};
 
 	const tableCellSettingsProps = {
@@ -287,23 +232,12 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 
 	const tableCellSettingsLabel: string =
 		selectedCells && selectedCells.length > 1
-			? __('Celected cells', 'comet')
+			? __('Selected cells', 'comet')
 			: __('Selected cell', 'comet');
-
-	const tableCaptionProps = {
-		attributes,
-		setAttributes,
-		insertBlocksAfter,
-		setSelectedLine,
-		setSelectedCells,
-		captionStylesObj,
-		isSelected: isSingleSelected,
-	};
 
 	const tableCaptionSettingProps = {
 		attributes,
 		setAttributes,
-		captionStylesObj,
 	};
 
 	return (
@@ -314,21 +248,10 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 				</div>
 			)}
 			{!isEmpty && (
-				<figure {...tableFigureProps}>
+				<div {...tableFigureProps}>
 					{!isContentOnlyMode && (
 						<>
 							<BlockControls group="block">
-								<ToolbarDropdownMenu
-									label={__('Change table justification', 'comet')}
-									icon={
-										(contentJustification &&
-											TableJustifyControls.find(
-												(control) => control.value === contentJustification
-											)?.icon) ||
-										justifyLeft
-									}
-									controls={TableJustifyControls}
-								/>
 								<ToolbarDropdownMenu
 									label={__('Edit table', 'comet')}
 									icon={blockTable}
@@ -356,10 +279,10 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 							</PanelBody>
 						)}
 					</InspectorControls>
-					{'top' === captionPosition && <TableCaption {...tableCaptionProps} />}
-					<Table {...tableProps} />
-					{'bottom' === captionPosition && <TableCaption {...tableCaptionProps} />}
-				</figure>
+					<div className="wp-block-comet-table">
+						<Table {...tableProps} />
+					</div>
+				</div>
 			)}
 		</>
 	);

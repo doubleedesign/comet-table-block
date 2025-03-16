@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import type { Properties } from 'csstype';
 import type { Dispatch, SetStateAction } from 'react';
 
 /**
@@ -31,10 +30,9 @@ type Props = {
 	vTable: VTable;
 	setSelectedCells: Dispatch<SetStateAction<VSelectedCells>>;
 	setSelectedLine: Dispatch<SetStateAction<VSelectedLine>>;
-	tableStylesObj: Properties;
 };
 
-export default function TableSettings({
+export function TableSettings({
 	attributes,
 	setAttributes,
 	vTable,

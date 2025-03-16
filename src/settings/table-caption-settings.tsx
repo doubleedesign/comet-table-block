@@ -18,17 +18,15 @@ import {
  * Internal dependencies
  */
 import { TEXT_ALIGNMENT_CONTROLS, CAPTION_POSITION_CONTROLS } from '../constants';
-import { convertToInline } from '../utils/style-converter';
 import type { captionPositionValue, BlockAttributes } from '../BlockAttributes';
 
 type Props = {
 	attributes: BlockAttributes;
 	setAttributes: (attrs: Partial<BlockAttributes>) => void;
-	captionStylesObj: Properties;
 };
 
-export default function TableCaptionSettings({ attributes, setAttributes, captionStylesObj }: Props) {
-	const { captionPosition } = attributes;
+export function TableCaptionSettings({ attributes, setAttributes }: Props) {
+	const { captionStyles } = attributes;
 
 	const onChangePosition = (value: string | number | undefined) => {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -36,7 +34,13 @@ export default function TableCaptionSettings({ attributes, setAttributes, captio
 			return CAPTION_POSITION_CONTROLS.some((control) => control.value === _value);
 		};
 		if (isAllowedValue(value)) {
-			setAttributes({ captionPosition: value });
+			setAttributes({
+				...attributes,
+				captionStyles: {
+					...captionStyles,
+					captionSide: value
+				}
+			});
 		}
 	};
 
@@ -46,12 +50,12 @@ export default function TableCaptionSettings({ attributes, setAttributes, captio
 			return !value || TEXT_ALIGNMENT_CONTROLS.some((control) => control.value === _value);
 		};
 		if (isAllowedValue(value)) {
-			const newStylesObj = {
-				...captionStylesObj,
-				textAlign: value === captionStylesObj.textAlign ? undefined : value,
-			};
 			setAttributes({
-				captionStyles: convertToInline(newStylesObj),
+				...attributes,
+				captionStyles: {
+					...captionStyles,
+					textAlign: value === captionStyles?.textAlign ? undefined : value,
+				}
 			});
 		}
 	};
@@ -60,7 +64,7 @@ export default function TableCaptionSettings({ attributes, setAttributes, captio
 		<Flex wrap={false} align="flex-start">
 			<ToggleGroupControl
 				label={__('Position', 'comet')}
-				value={captionPosition}
+				value={captionStyles?.captionSide ?? 'bottom'}
 				onChange={onChangePosition}
 				isBlock
 			>
@@ -70,7 +74,7 @@ export default function TableCaptionSettings({ attributes, setAttributes, captio
 			</ToggleGroupControl>
 			<ToggleGroupControl
 				label={__('Text alignment', 'comet')}
-				value={captionStylesObj?.textAlign}
+				value={captionStyles?.textAlign}
 				isDeselectable
 				onChange={onChangeAlign}
 				isBlock

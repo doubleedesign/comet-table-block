@@ -53,7 +53,7 @@ type Props = {
 	selectedCells: VSelectedCells;
 };
 
-export default function TableCellSettings({ setAttributes, vTable, selectedCells = [] }: Props) {
+export function TableCellSettings({ setAttributes, vTable, selectedCells = [] }: Props) {
 	const cellWidthUnits = useCustomUnits({ availableUnits: CELL_WIDTH_UNITS });
 
 	if (!selectedCells.length) {

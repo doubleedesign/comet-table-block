@@ -50,7 +50,7 @@ const transforms: Transforms = {
 					} );
 				};
 
-				return createBlock( 'flexible-table-block/table', {
+				return createBlock( 'comet/table', {
 					head: convertedSections( head ),
 					body: convertedSections( body ),
 					foot: convertedSections( foot ),
@@ -119,11 +119,9 @@ const transforms: Transforms = {
 					{}
 				);
 
-				return createBlock( 'core/table', {
+				return createBlock('core/table', {
 					...sectionAttributes,
-					hasFixedLayout: attributes.hasFixedLayout,
 					caption: attributes.caption,
-					style: attributes.style,
 				} );
 			},
 		},

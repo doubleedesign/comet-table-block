@@ -2,7 +2,6 @@
  * External dependencies
  */
 import clsx from 'clsx';
-import type { Properties } from 'csstype';
 import type { Dispatch, SetStateAction, MouseEvent, KeyboardEvent } from 'react';
 
 /**
@@ -10,15 +9,12 @@ import type { Dispatch, SetStateAction, MouseEvent, KeyboardEvent } from 'react'
  */
 import { __ } from '@wordpress/i18n';
 import { useState, useEffect, useRef } from '@wordpress/element';
-import {
-	RichText,
-	// @ts-ignore: has no exported member
-	__experimentalUseColorProps as useColorProps,
-} from '@wordpress/block-editor';
+import { RichText } from '@wordpress/block-editor';
 import { Button } from '@wordpress/components';
 import { plus, trash, chevronRight, chevronDown } from '@wordpress/icons';
 import { store as noticesStore } from '@wordpress/notices';
 import { useDispatch } from '@wordpress/data';
+import { TableCaption } from './table-caption';
 
 /**
  * Internal dependencies
@@ -42,7 +38,6 @@ import {
 import { convertToObject } from '../utils/style-converter';
 
 import type { SectionName, CellTagValue, BlockAttributes } from '../BlockAttributes';
-import type { StoreOptions } from '../store';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function TSection(props: any) {
@@ -64,9 +59,7 @@ type Props = {
 	attributes: BlockAttributes;
 	setAttributes: (attrs: Partial<BlockAttributes>) => void;
 	isSelected: boolean;
-	options: StoreOptions;
 	vTable: VTable;
-	tableStylesObj: Properties;
 	selectedCells: VSelectedCells;
 	setSelectedCells: Dispatch<SetStateAction<VSelectedCells>>;
 	selectedLine: VSelectedLine;
@@ -74,22 +67,17 @@ type Props = {
 	isContentOnlyMode: boolean;
 };
 
-export default function Table({
+export function Table({
 	attributes,
 	setAttributes,
 	isSelected,
 	vTable,
-	tableStylesObj,
 	selectedCells,
 	setSelectedCells,
 	selectedLine,
 	setSelectedLine,
 	isContentOnlyMode,
 }: Props) {
-	const { hasFixedLayout, isStackedOnMobile, sticky } = attributes;
-
-	const colorProps = useColorProps(attributes);
-
 	const [isSelectMode, setIsSelectMode] = useState<boolean>(false);
 
 	// Manage rendering status as state since some processing may be performed before rendering components.
@@ -113,11 +101,7 @@ export default function Table({
 
 	const onDeleteRow = (sectionName: SectionName, rowIndex: number) => {
 		// Do not allow tbody to be empty for table with thead /tfoot sections.
-		if (
-			sectionName === 'body' &&
-			vTable.body.length === 1 &&
-			(!isEmptySection(vTable.head) || !isEmptySection(vTable.foot))
-		) {
+		if(sectionName === 'body' && vTable.body.length === 1 && (!isEmptySection(vTable.head) || !isEmptySection(vTable.foot))) {
 			// @ts-ignore
 			createWarningNotice(
 				__('The table body must have one or more rows.', 'comet'),
@@ -431,20 +415,21 @@ export default function Table({
 		return null;
 	}
 
+	const tableCaptionProps = {
+		attributes,
+		setAttributes,
+		isSelected,
+		onFocus: () => {
+			setSelectedLine(undefined);
+			setSelectedCells(undefined);
+		}
+	};
+
 	const filteredSections = Object.keys(filteredVTable) as SectionName[];
 
 	return (
-		<table
-			className={clsx(colorProps.className, {
-				'has-fixed-layout': hasFixedLayout,
-				'is-stacked-on-mobile': isStackedOnMobile,
-				[`is-sticky-${sticky}`]: sticky,
-			})}
-			style={{ ...tableStylesObj, ...colorProps.style }}
-			ref={tableRef}
-			onKeyDown={onKeyDown}
-			onKeyUp={onKeyUp}
-		>
+		<table ref={tableRef} onKeyDown={onKeyDown} onKeyUp={onKeyUp}>
+			<TableCaption {...tableCaptionProps} />
 			{filteredSections.map((sectionName: SectionName, sectionIndex) => (
 				<TSection name={sectionName} key={sectionIndex}>
 					{filteredVTable[sectionName].map((row: VRow, rowIndex: number) => (

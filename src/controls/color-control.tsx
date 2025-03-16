@@ -44,7 +44,7 @@ type Props = {
 };
 
 export default function ColorControl( {
-	label = __( 'Color', 'flexible-table-block' ),
+	label = __( 'Color', 'comet' ),
 	help,
 	onChange,
 	colors: colorsProp = [],
@@ -81,12 +81,12 @@ export default function ColorControl( {
 					</Text>
 					<FlexItem>
 						<Button variant="secondary" onClick={ handleOnReset } size="small">
-							{ __( 'Reset', 'flexible-table-block' ) }
+							{ __( 'Reset', 'comet' ) }
 						</Button>
 					</FlexItem>
 				</Flex>
 				<ColorIndicatorButton
-					label={ __( 'Color', 'flexible-table-block' ) }
+					label={ __( 'Color', 'comet' ) }
 					value={ value }
 					onClick={ handleOnPickerOpen }
 					isNone={ ! value }

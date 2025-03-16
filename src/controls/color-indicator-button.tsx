@@ -38,7 +38,7 @@ export default function ColorIndicatorButton( {
 			onClick={ onClick }
 		>
 			{ isMixed ? (
-				__( 'Mixed', 'flexible-table-block' )
+				__( 'Mixed', 'comet' )
 			) : (
 				<ColorIndicator colorValue={ value || '' } />
 			) }

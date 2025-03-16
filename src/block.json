@@ -20,21 +20,14 @@
 			"selector": "table",
 			"attribute": "style"
 		},
-		"captionPosition": {
-			"type": "string",
-			"default": "bottom"
-		},
 		"caption": {
 			"type": "string",
 			"source": "html",
-			"selector": "figcaption",
+			"selector": "caption",
 			"__experimentalRole": "content"
 		},
 		"captionStyles": {
-			"type": "string",
-			"source": "attribute",
-			"selector": "figcaption",
-			"attribute": "style"
+			"type": "object"
 		},
 		"head": {
 			"type": "array",
@@ -79,7 +72,7 @@
 							"attribute": "headers"
 						},
 						"scope": {
-							"enum": [ "row", "col", "rowgroup", "colgroup" ],
+							"enum": [ "row", "col", "rowgroup", "colgroup", "" ],
 							"source": "attribute",
 							"attribute": "scope"
 						},

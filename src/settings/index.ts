@@ -1,3 +1,3 @@
-export { default as TableSettings } from './table-settings';
-export { default as TableCaptionSettings } from './table-caption-settings';
-export { default as TableCellSettings } from './table-cell-settings';
+export { TableSettings } from './table-settings';
+export { TableCaptionSettings } from './table-caption-settings';
+export { TableCellSettings } from './table-cell-settings';

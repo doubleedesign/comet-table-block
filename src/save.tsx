@@ -1,18 +1,7 @@
 /**
- * External dependencies
- */
-import clsx from 'clsx';
-import type { Properties } from 'csstype';
-
-/**
  * WordPress dependencies
  */
-import {
-	RichText,
-	useBlockProps,
-	// @ts-ignore: has no exported member
-	__experimentalGetColorClassesAndStyles as getColorClassesAndStyles,
-} from '@wordpress/block-editor';
+import { RichText, useBlockProps } from '@wordpress/block-editor';
 import type { BlockSaveProps } from '@wordpress/blocks';
 
 /**
@@ -24,15 +13,13 @@ import type { BlockAttributes, SectionName, Row } from './BlockAttributes';
 
 export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 	const {
-		tableStyles,
 		isStackedOnMobile,
 		sticky,
 		head,
 		body,
 		foot,
 		caption,
-		captionPosition,
-		captionStyles,
+		captionStyles
 	} = attributes;
 
 	const isEmpty: boolean = !head.length && !body.length && !foot.length;
@@ -41,16 +28,10 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 		return null;
 	}
 
-	const tableStylesObj: Properties = convertToObject(tableStyles);
-	const captionStylesObj: Properties = convertToObject(captionStyles);
-
-	const colorProps = getColorClassesAndStyles(attributes);
-
-	const blockProps = useBlockProps.save();
-
-	const tableClasses: string = clsx(colorProps.className, {
-		'is-stacked-on-mobile': isStackedOnMobile,
-		[`is-sticky-${sticky}`]: sticky,
+	const blockProps = useBlockProps.save({
+		className: 'table',
+		'data-allow-layout-stacking': isStackedOnMobile,
+		'data-sticky': sticky
 	});
 
 	const hasCaption: boolean = !RichText.isEmpty(caption || '');
@@ -92,21 +73,17 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 	};
 
 	const Caption = () => (
-		<RichText.Content tagName="figcaption" value={caption || ''} style={captionStylesObj}/>
+		<RichText.Content tagName="caption" value={caption || ''} style={captionStyles}/>
 	);
 
 	return (
-		<figure {...blockProps}>
-			{hasCaption && 'top' === captionPosition && <Caption/>}
-			<table
-				className={tableClasses ?? undefined}
-				style={{ ...tableStylesObj, ...colorProps.style }}
-			>
+		<div className="wp-block-comet-table">
+			<table {...blockProps}>
+				{hasCaption && <Caption />}
 				<Section type="head" rows={head}/>
 				<Section type="body" rows={body}/>
 				<Section type="foot" rows={foot}/>
 			</table>
-			{hasCaption && 'bottom' === captionPosition && <Caption/>}
-		</figure>
+		</div>
 	);
 }

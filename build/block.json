@@ -24,21 +24,14 @@
       "selector": "table",
       "attribute": "style"
     },
-    "captionPosition": {
-      "type": "string",
-      "default": "bottom"
-    },
     "caption": {
       "type": "string",
       "source": "html",
-      "selector": "figcaption",
+      "selector": "caption",
       "__experimentalRole": "content"
     },
     "captionStyles": {
-      "type": "string",
-      "source": "attribute",
-      "selector": "figcaption",
-      "attribute": "style"
+      "type": "object"
     },
     "head": {
       "type": "array",
@@ -87,7 +80,8 @@
                 "row",
                 "col",
                 "rowgroup",
-                "colgroup"
+                "colgroup",
+                ""
               ],
               "source": "attribute",
               "attribute": "scope"

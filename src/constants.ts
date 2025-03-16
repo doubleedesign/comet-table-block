@@ -3,9 +3,6 @@
  */
 import { __, _x } from '@wordpress/i18n';
 import {
-	justifyLeft,
-	justifyCenter,
-	justifyRight,
 	alignLeft,
 	alignCenter,
 	alignRight,
@@ -35,30 +32,6 @@ export const MAX_PREVIEW_TABLE_ROW = 50 as const;
 export const THRESHOLD_PREVIEW_TABLE_COL = 10 as const;
 export const THRESHOLD_PREVIEW_TABLE_ROW = 10 as const;
 
-// Upper and lower limits.
-export const MAX_BORDER_RADIUS = {
-	px: 200,
-	em: 20,
-	rem: 20,
-} as const;
-
-export const MAX_BORDER_WIDTH = {
-	px: 50,
-	em: 5,
-	rem: 5,
-} as const;
-
-export const MAX_BORDER_SPACING = {
-	px: 50,
-	em: 5,
-	rem: 5,
-} as const;
-
-// Responsive breakpoint settings.
-export const DEFAULT_RESPONSIVE_BREAKPOINT = 768 as const;
-export const MIN_RESPONSIVE_BREAKPOINT = 200 as const;
-export const MAX_RESPONSIVE_BREAKPOINT = 1200 as const;
-
 // Available units on UnitControl component.
 export const CELL_WIDTH_UNITS = ['%', 'px', 'em', 'rem'];
 
@@ -70,24 +43,6 @@ export const CELL_ARIA_LABEL = {
 } as const;
 
 // Controls variations.
-export const CONTENT_JUSTIFY_CONTROLS = [
-	{
-		icon: justifyLeft,
-		label: __('Justify table left', 'comet'),
-		value: 'left',
-	},
-	{
-		icon: justifyCenter,
-		label: __('Justify table center', 'comet'),
-		value: 'center',
-	},
-	{
-		icon: justifyRight,
-		label: __('Justify table right', 'comet'),
-		value: 'right',
-	},
-];
-
 export const TEXT_ALIGNMENT_CONTROLS = [
 	{
 		icon: alignLeft,
@@ -152,12 +107,16 @@ export const CELL_TAG_CONTROLS = [
 
 export const CELL_SCOPE_CONTROLS = [
 	{
-		label: __('row', 'comet'),
-		value: 'row',
+		label: __('default / automatic', 'comet'),
+		value: '',
 	},
 	{
 		label: __('col', 'comet'),
 		value: 'col',
+	},
+	{
+		label: __('row', 'comet'),
+		value: 'row',
 	},
 	{
 		label: __('rowgroup', 'comet'),
@@ -177,35 +136,5 @@ export const CAPTION_POSITION_CONTROLS = [
 	{
 		label: __('Bottom', 'comet'),
 		value: 'bottom',
-	},
-] as const;
-
-export const DIRECTION_CONTROLS = [
-	{
-		label: __('Vertical', 'comet'),
-		value: 'vertical',
-	},
-	{
-		label: __('Horizontal', 'comet'),
-		value: 'horizontal',
-	},
-] as const;
-
-export const SIDE_CONTROLS = [
-	{
-		label: __('Top', 'comet'),
-		value: 'top',
-	},
-	{
-		label: __('Right', 'comet'),
-		value: 'right',
-	},
-	{
-		label: __('Bottom', 'comet'),
-		value: 'bottom',
-	},
-	{
-		label: __('Left', 'comet'),
-		value: 'left',
 	},
 ] as const;
