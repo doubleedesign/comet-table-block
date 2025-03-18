@@ -1,0 +1,29 @@
+.wp-block-comet-table {
+  box-sizing: border-box;
+}
+.wp-block-comet-table > table.has-fixed-layout {
+  table-layout: fixed;
+}
+.wp-block-comet-table > table.is-sticky-header:not(.is-stacked-on-mobile) thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.wp-block-comet-table > table.is-sticky-first-column tr > *:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+.wp-block-comet-table > table th,
+.wp-block-comet-table > table td {
+  box-sizing: border-box;
+  min-width: auto;
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+.wp-block-comet-table > table th img,
+.wp-block-comet-table > table td img {
+  max-width: 100%;
+}
+
+/*# sourceMappingURL=style.css.map */

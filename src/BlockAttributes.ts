@@ -50,6 +50,7 @@ export interface Cell {
 // Block attributes
 export interface BlockAttributes extends TableAttributes {
 	isStackedOnMobile?: boolean;
+	firstColumnIsHeaders?: boolean;
 	sticky?: StickyValue;
 	caption?: string;
 	captionStyles?: Properties;

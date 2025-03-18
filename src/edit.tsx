@@ -225,6 +225,7 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 	};
 
 	const tableCellSettingsProps = {
+		firstColumnIsHeaders: attributes?.firstColumnIsHeaders,
 		setAttributes,
 		vTable,
 		selectedCells,
@@ -263,7 +264,7 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 					<InspectorControls>
 						<PanelBody
 							title={__('Table layout', 'comet')}
-							initialOpen={false}
+							initialOpen={true}
 						>
 							<TableSettings {...tableSettingsProps} />
 						</PanelBody>
@@ -274,7 +275,7 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 							<TableCaptionSettings {...tableCaptionSettingProps} />
 						</PanelBody>
 						{selectedCells && !!selectedCells.length && (
-							<PanelBody title={tableCellSettingsLabel} initialOpen={false}>
+							<PanelBody title={tableCellSettingsLabel} initialOpen={true}>
 								<TableCellSettings {...tableCellSettingsProps} />
 							</PanelBody>
 						)}

@@ -2,9 +2,10 @@
 
 .editor-styles-wrapper .wp-block-comet-table {
 	box-sizing: border-box;
+	margin-block: var(--spacing-md);
 
 	> table {
-		width: 100%;
+		min-width: 100%;
 
 		thead,
 		tbody,
@@ -49,7 +50,7 @@
 
 	> figcaption {
 		position: relative;
-		z-index: 1;
+		z-index: 100;
 	}
 
 	&.is-selected {
@@ -63,6 +64,10 @@
 					border: 1px dotted #ccc;
 				}
 			}
+		}
+
+		caption {
+			margin-bottom: 1rem;
 		}
 
 		&.show-dot-on-th th::before {
@@ -90,29 +95,6 @@
 		}
 	}
 
-	&.is-content-justification-left,
-	&.is-content-justification-center,
-	&.is-content-justification-right {
-		display: flex;
-		flex-flow: column;
-
-		figcaption {
-			align-self: stretch;
-		}
-	}
-
-	&.is-content-justification-left {
-		align-items: flex-start;
-	}
-
-	&.is-content-justification-center {
-		align-items: center;
-	}
-
-	&.is-content-justification-right {
-		align-items: flex-end;
-	}
-
 	.ftb-placeholder {
 		// Reset typography support styles
 		font-style: normal;
@@ -128,55 +110,38 @@
 			font-size: 13px;
 			background: #f0f0f1;
 		}
-	}
 
-	.ftb-placeholder__table-wrap {
-		width: 100%;
-		background-color: #eaeaea;
-		box-sizing: border-box;
-	}
-
-	.ftb-placeholder__table {
-		width: 100%;
-		max-width: 330px;
-		vertical-align: middle;
-		table-layout: fixed;
-		border-spacing: 3px;
-		border-collapse: separate;
-
-		th,
-		td {
-			padding: 0 !important;
+		&__table-wrap {
+			width: 100%;
+			background-color: #eaeaea;
+			box-sizing: border-box;
 		}
 
-		thead th {
-			background-color: var(--wp-admin-theme-color);
-			border: 1px #1e1e1e solid;
-		}
+		&__table {
+			width: 100%;
+			max-width: 330px;
+			vertical-align: middle;
+			table-layout: fixed;
+			border-spacing: 3px;
+			border-collapse: separate;
 
-		tbody td,
-		tfoot td {
-			background-color: #fff;
-			border: 1px #1e1e1e solid;
-		}
-
-		&.is-overflow-col tr *:nth-last-child(2) {
-			position: relative;
-			text-align: center;
-			background-color: transparent;
-			border: none;
-
-			&::before {
-				display: block;
-				font-weight: normal;
-				line-height: 0;
-				content: "...";
+			th,
+			td {
+				padding: 0 !important;
 			}
-		}
 
-		&.is-overflow-row {
+			thead th {
+				background-color: var(--wp-admin-theme-color);
+				border: 1px #1e1e1e solid;
+			}
 
-			tbody tr:nth-last-child(2) td {
+			tbody td,
+			tfoot td {
+				background-color: #fff;
+				border: 1px #1e1e1e solid;
+			}
+
+			&.is-overflow-col tr *:nth-last-child(2) {
 				position: relative;
 				text-align: center;
 				background-color: transparent;
@@ -184,15 +149,32 @@
 
 				&::before {
 					display: block;
+					font-weight: normal;
 					line-height: 0;
 					content: "...";
 				}
 			}
-		}
-	}
 
-	.ftb-placeholder__input {
-		width: 112px;
+			&.is-overflow-row {
+
+				tbody tr:nth-last-child(2) td {
+					position: relative;
+					text-align: center;
+					background-color: transparent;
+					border: none;
+
+					&::before {
+						display: block;
+						line-height: 0;
+						content: "...";
+					}
+				}
+			}
+		}
+
+		&__input {
+			width: 112px;
+		}
 	}
 
 	.ftb-table-cell-label {
@@ -372,54 +354,5 @@
 		.ftb-row-after-inserter {
 			left: -34px;
 		}
-	}
-}
-
-// Setting Component Styles
-.ftb-button-group {
-	display: block;
-
-	.components-button {
-		vertical-align: top;
-
-		&.components-button.is-small {
-			width: auto;
-			min-width: auto;
-			padding: 6px;
-		}
-	}
-}
-
-.ftb-base-control-label {
-	display: inline-block;
-	margin-bottom: 8px;
-	font-size: 11px;
-	font-weight: 500;
-	text-transform: uppercase;
-}
-
-.ftb-percent-group {
-	margin-top: -8px;
-
-	&:has(+ .components-base-control) {
-		margin-bottom: 16px;
-	}
-}
-
-// Backwards compatible styles for WordPress 6.6 / 6.5
-// See: https://github.com/WordPress/gutenberg/issues/53374
-.is-outline-mode .wp-block-flexible-table-block-table.is-selected .rich-text {
-	cursor: initial;
-}
-
-// Backwards compatible styles for WordPress 6.5
-.ftb-placeholder {
-
-	.components-placeholder__instructions {
-		margin-bottom: 0;
-	}
-
-	.components-placeholder__fieldset {
-		gap: 16px;
 	}
 }

@@ -81,7 +81,7 @@ export const VERTICAL_ALIGNMENT_CONTROLS = [
 
 export const STICKY_CONTROLS = [
 	{
-		label: _x('none', 'Fixed headers', 'comet'),
+		label: _x('none', 'comet'),
 		value: 'none',
 	},
 	{

@@ -1,7 +1,10 @@
+// noinspection ES6PreferShortImport
+
 /**
  * External dependencies
  */
 import type { Property } from 'csstype';
+import { useMemo } from 'react';
 
 /**
  * WordPress dependencies
@@ -48,12 +51,13 @@ import type {
 } from '../BlockAttributes';
 
 type Props = {
+	firstColumnIsHeaders?: boolean;
 	setAttributes: (attrs: Partial<BlockAttributes>) => void;
 	vTable: VTable;
 	selectedCells: VSelectedCells;
 };
 
-export function TableCellSettings({ setAttributes, vTable, selectedCells = [] }: Props) {
+export function TableCellSettings({ firstColumnIsHeaders, setAttributes, vTable, selectedCells = [] }: Props) {
 	const cellWidthUnits = useCustomUnits({ availableUnits: CELL_WIDTH_UNITS });
 
 	if (!selectedCells.length) {
@@ -67,6 +71,18 @@ export function TableCellSettings({ setAttributes, vTable, selectedCells = [] }:
 	if (!targetCell) {
 		return null;
 	}
+
+	const showCellTypeAndScopeControls = useMemo(() => {
+		// If the selected cells are in the first column and firstColumnIsHeaders is on, do not show type control
+		if(firstColumnIsHeaders && selectedCells.every((cell) => cell.vColIndex === 0 && cell.tag === 'th')) return false;
+
+		// If the selected cells are in the <thead>, do not show type control
+		const theadRowQty = vTable.head.length;
+		const selectedCellsAreInThead = theadRowQty > 0 && selectedCells.every(cell => cell.rowIndex <= theadRowQty && cell.tag === 'th');
+		if(selectedCellsAreInThead) return false;
+
+		return true;
+	}, [firstColumnIsHeaders, selectedCells, vTable]);
 
 	const selectedCellTags = selectedCells.reduce((result: CellTagValue[], selectedCell) => {
 		const { tag } =
@@ -138,36 +154,48 @@ export function TableCellSettings({ setAttributes, vTable, selectedCells = [] }:
 		updateCellsState({ scope: value === targetCell.scope ? undefined : value });
 	};
 
+	const CellTypeControl = () => {
+		if(!showCellTypeAndScopeControls) return null;
+
+		return <ToggleGroupControl
+			label={__('Cell type', 'comet')}
+			value={targetCell.tag}
+			isBlock
+			onChange={onChangeTag}
+		>
+			{CELL_TAG_CONTROLS.map(({ label, value }) => (
+				<ToggleGroupControlOption key={value} value={value} label={label}/>
+			))}
+		</ToggleGroupControl>;
+	};
+
+	const CellScopeControl = () => {
+		if(!showCellTypeAndScopeControls) return null;
+
+		return <SelectControl
+			label={__('Scope', 'comet')}
+			value={targetCell.scope}
+			options={CELL_SCOPE_CONTROLS.map(({ label, value }) => {
+				return { label, value };
+			})}
+			/** @ts-expect-error TS2322 Type string is not assignable to type "col" | "colgroup" | "row" | "rowgroup" */
+			onChange={onChangeScope}
+			help="Does this label its row or column?"
+			__next40pxDefaultSize
+		/>;
+	};
+
 	return (
 		<>
-			<ToggleGroupControl
-				label={__('Cell type', 'comet')}
-				value={targetCell.tag}
-				isBlock
-				onChange={onChangeTag}
-			>
-				{CELL_TAG_CONTROLS.map(({ label, value }) => (
-					<ToggleGroupControlOption key={value} value={value} label={label}/>
-				))}
-			</ToggleGroupControl>
+			<CellTypeControl />
 			{selectedCellTags.length === 1 && (
 				<>
 					{selectedCellTags.includes('th') && (
-						<SelectControl
-							label={__('Scope', 'comet')}
-							value={targetCell.scope}
-							options={CELL_SCOPE_CONTROLS.map(({ label, value }) => {
-								return { label, value };
-							})}
-							/** @ts-expect-error TS2322 Type string is not assignable to type "col" | "colgroup" | "row" | "rowgroup" */
-							onChange={onChangeScope}
-							help="Does this label its row or column?"
-							__next40pxDefaultSize
-						/>
+						<CellScopeControl />
 					)}
 					{selectedCellTags.includes('th') && (
 						<UnitControl
-							label={__('Column width', 'comet')}
+							label={__('Preferred column width', 'comet')}
 							value={cellStylesObj?.width}
 							units={cellWidthUnits}
 							min={0}
@@ -177,11 +205,11 @@ export function TableCellSettings({ setAttributes, vTable, selectedCells = [] }:
 					)}
 					{selectedCellTags.includes('th') && (
 						<TextControl
-							label={__('Unique ID', 'comet')}
+							label={__('Cell ID', 'comet')}
 							autoComplete="off"
 							value={targetCell.id || ''}
 							onChange={onChangeId}
-							help="No spaces; must start with a letter"
+							help="No spaces; must start with a letter and be unique to the page"
 							__next40pxDefaultSize
 						/>
 					)}
@@ -204,7 +232,7 @@ export function TableCellSettings({ setAttributes, vTable, selectedCells = [] }:
 					<Flex style={{ marginBottom: '-16px' }} justify="start" align="start">
 						<ToggleGroupControl
 							label={__('Text alignment', 'comet')}
-							value={cellStylesObj?.textAlign}
+							value={cellStylesObj?.textAlign ?? 'left'}
 							isDeselectable
 							onChange={onChangeTextAlign}
 						>
@@ -219,7 +247,7 @@ export function TableCellSettings({ setAttributes, vTable, selectedCells = [] }:
 						</ToggleGroupControl>
 						<ToggleGroupControl
 							label={__('Vertical alignment', 'comet')}
-							value={cellStylesObj?.verticalAlign}
+							value={cellStylesObj?.verticalAlign ?? 'top'}
 							isDeselectable
 							onChange={onChangeVerticalAlign}
 						>

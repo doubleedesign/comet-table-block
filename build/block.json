@@ -3,6 +3,12 @@
   "name": "comet/table",
   "title": "Table",
   "category": "text",
+  "parent": [
+    "comet/container",
+    "core/group",
+    "core/column",
+    "comet/panel-content"
+  ],
   "keywords": [
     "table",
     "cell",
@@ -12,6 +18,10 @@
   "textdomain": "comet",
   "attributes": {
     "isStackedOnMobile": {
+      "type": "boolean",
+      "default": false
+    },
+    "firstColumnIsHeaders": {
       "type": "boolean",
       "default": false
     },
@@ -31,7 +41,10 @@
       "__experimentalRole": "content"
     },
     "captionStyles": {
-      "type": "object"
+      "type": "object",
+      "default": {
+        "captionSide": "bottom"
+      }
     },
     "head": {
       "type": "array",

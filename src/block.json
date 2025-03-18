@@ -3,11 +3,16 @@
 	"name": "comet/table",
 	"title": "Table",
 	"category": "text",
+	"parent": ["comet/container", "core/group", "core/column", "comet/panel-content"],
 	"keywords": [ "table", "cell", "data" ],
 	"description": "Create structured content in rows and columns to display tabular data.",
 	"textdomain": "comet",
 	"attributes": {
 		"isStackedOnMobile": {
+			"type": "boolean",
+			"default": false
+		},
+		"firstColumnIsHeaders": {
 			"type": "boolean",
 			"default": false
 		},
@@ -27,7 +32,10 @@
 			"__experimentalRole": "content"
 		},
 		"captionStyles": {
-			"type": "object"
+			"type": "object",
+			"default": {
+				"captionSide": "bottom"
+			}
 		},
 		"head": {
 			"type": "array",
