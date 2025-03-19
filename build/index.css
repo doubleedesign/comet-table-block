@@ -380,4 +380,9 @@
   }
 }
 
+.editor-sidebar__panel .comet-cell-text-align > .components-flex > .components-base-control {
+  width: 50%;
+  flex-basis: 50%;
+}
+
 /*# sourceMappingURL=index.css.map*/

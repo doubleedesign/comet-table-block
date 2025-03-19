@@ -227,8 +227,8 @@ export function TableCellSettings({ firstColumnIsHeaders, setAttributes, vTable,
 				</>
 			)}
 			<hr/>
-			<BaseControl id="comet-cell-text-align">
-				<div aria-labelledby="comet-cell-text-align-heading" role="group">
+			<BaseControl>
+				<div className="comet-cell-text-align" role="group">
 					<Flex style={{ marginBottom: '-16px' }} justify="start" align="start">
 						<ToggleGroupControl
 							label={__('Text alignment', 'comet')}
@@ -265,7 +265,7 @@ export function TableCellSettings({ firstColumnIsHeaders, setAttributes, vTable,
 			</BaseControl>
 			<hr/>
 			<ColorControl
-				label={__('Cell background', 'comet')}
+				label={__('Cell background (override default)', 'comet')}
 				value={cellStylesObj.backgroundColor}
 				onChange={onChangeBackgroundColor}
 			/>

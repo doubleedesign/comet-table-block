@@ -1858,7 +1858,6 @@ function ColorControl({
     return (_settings$colors = settings?.colors) !== null && _settings$colors !== void 0 ? _settings$colors : [];
   }, []);
   const [isPickerOpen, setIsPickerOpen] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.useState)(false);
-  const handleOnReset = () => onChange(undefined);
   const handleOnChange = inputValue => onChange(inputValue);
   const handleOnPickerOpen = () => setIsPickerOpen(true);
   const handleOnPickerClose = () => setIsPickerOpen(false);
@@ -1869,17 +1868,13 @@ function ColorControl({
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.__experimentalVStack, {
     "aria-labelledby": headingId,
     role: "group"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Flex, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.__experimentalText, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.__experimentalText, {
     id: headingId,
     upperCase: true,
     size: "11",
     weight: "500",
     as: _wordpress_components__WEBPACK_IMPORTED_MODULE_4__.FlexBlock
-  }, label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.FlexItem, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
-    variant: "secondary",
-    onClick: handleOnReset,
-    size: "small"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Reset', 'comet')))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_color_indicator_button__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }, label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_color_indicator_button__WEBPACK_IMPORTED_MODULE_7__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Color', 'comet'),
     value: value,
     onClick: handleOnPickerOpen,
@@ -3855,10 +3850,8 @@ function TableCellSettings({
     value: targetCell.headers || '',
     onChange: onChangeHeaders,
     help: "Unique ID of a header cell to associate with this cell"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("hr", null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
-    id: "comet-cell-text-align"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    "aria-labelledby": "comet-cell-text-align-heading",
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("hr", null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "comet-cell-text-align",
     role: "group"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Flex, {
     style: {
@@ -3895,7 +3888,7 @@ function TableCellSettings({
     icon: icon,
     label: label
   })))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("hr", null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls__WEBPACK_IMPORTED_MODULE_5__.ColorControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Cell background', 'comet'),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Cell background (override default)', 'comet'),
     value: cellStylesObj.backgroundColor,
     onChange: onChangeBackgroundColor
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {

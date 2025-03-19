@@ -12,10 +12,7 @@ import { useSelect } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import {
 	BaseControl,
-	Button,
-	Flex,
 	FlexBlock,
-	FlexItem,
 	Popover,
 	ColorPalette,
 	__experimentalVStack as VStack,
@@ -34,7 +31,7 @@ type Props = {
 	label: string | ReactElement;
 	help?: string;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	onChange: ( event: any ) => void;
+	onChange: (event: any) => void;
 	colors?: {
 		name: string;
 		slug: string;
@@ -43,67 +40,58 @@ type Props = {
 	value: Property.Color | undefined;
 };
 
-export default function ColorControl( {
-	label = __( 'Color', 'comet' ),
+export default function ColorControl({
+	label = __('Color', 'comet'),
 	help,
 	onChange,
 	colors: colorsProp = [],
 	value,
-}: Props ) {
-	const instanceId = useInstanceId( ColorControl, 'ftb-color-control' );
-	const headingId = `${ instanceId }-heading`;
+}: Props) {
+	const instanceId = useInstanceId(ColorControl, 'ftb-color-control');
+	const headingId = `${instanceId}-heading`;
 
-	const colors = useSelect( ( select ) => {
+	const colors = useSelect((select) => {
 		const settings = select(
 			blockEditorStore
 			// @ts-ignore
 		).getSettings();
 
 		return settings?.colors ?? [];
-	}, [] );
+	}, []);
 
-	const [ isPickerOpen, setIsPickerOpen ] = useState< boolean >( false );
+	const [isPickerOpen, setIsPickerOpen] = useState<boolean>(false);
 
-	const handleOnReset = () => onChange( undefined );
+	const handleOnChange = (inputValue: Property.Color | undefined) => onChange(inputValue);
 
-	const handleOnChange = ( inputValue: Property.Color | undefined ) => onChange( inputValue );
+	const handleOnPickerOpen = () => setIsPickerOpen(true);
 
-	const handleOnPickerOpen = () => setIsPickerOpen( true );
-
-	const handleOnPickerClose = () => setIsPickerOpen( false );
+	const handleOnPickerClose = () => setIsPickerOpen(false);
 
 	return (
-		<BaseControl className="ftb-color-control" help={ help } __nextHasNoMarginBottom>
-			<VStack aria-labelledby={ headingId } role="group">
-				<Flex>
-					<Text id={ headingId } upperCase size="11" weight="500" as={ FlexBlock }>
-						{ label }
-					</Text>
-					<FlexItem>
-						<Button variant="secondary" onClick={ handleOnReset } size="small">
-							{ __( 'Reset', 'comet' ) }
-						</Button>
-					</FlexItem>
-				</Flex>
+		<BaseControl className="ftb-color-control" help={help} __nextHasNoMarginBottom>
+			<VStack aria-labelledby={headingId} role="group">
+				<Text id={headingId} upperCase size="11" weight="500" as={FlexBlock}>
+					{label}
+				</Text>
 				<ColorIndicatorButton
-					label={ __( 'Color', 'comet' ) }
-					value={ value }
-					onClick={ handleOnPickerOpen }
-					isNone={ ! value }
-					isTransparent={ value === 'transparent' }
+					label={__('Color', 'comet')}
+					value={value}
+					onClick={handleOnPickerOpen}
+					isNone={!value}
+					isTransparent={value === 'transparent'}
 				/>
 			</VStack>
-			{ isPickerOpen && (
-				<Popover placement="left-start" shift offset={ 36 } onClose={ handleOnPickerClose }>
-					<Spacer padding={ 4 } marginBottom={ 0 }>
+			{isPickerOpen && (
+				<Popover placement="left-start" shift offset={36} onClose={handleOnPickerClose}>
+					<Spacer padding={4} marginBottom={0}>
 						<ColorPalette
-							colors={ [ ...colors, ...colorsProp ] }
-							value={ value || '' }
-							onChange={ handleOnChange }
+							colors={[...colors, ...colorsProp]}
+							value={value || ''}
+							onChange={handleOnChange}
 						/>
 					</Spacer>
 				</Popover>
-			) }
+			)}
 		</BaseControl>
 	);
 }
