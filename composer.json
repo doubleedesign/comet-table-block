@@ -1,7 +1,7 @@
 {
 	"name": "doubleedesign/comet-table-block",
 	"type": "wordpress-plugin",
-	"description": "WordPress Plugin",
+	"description": "A WordPress plugin for creating Comet Components tables in the block editor.",
 	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
