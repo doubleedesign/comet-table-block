@@ -1,5 +1,6 @@
 {
 	"name": "t-hamano/flexible-table-block",
+	"type": "wordpress-plugin",
 	"description": "WordPress Plugin",
 	"license": "GPL-2.0-or-later",
 	"authors": [
