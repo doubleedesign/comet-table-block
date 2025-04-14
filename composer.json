@@ -1,9 +1,13 @@
 {
-	"name": "t-hamano/flexible-table-block",
+	"name": "doubleedesign/comet-table-block",
 	"type": "wordpress-plugin",
 	"description": "WordPress Plugin",
 	"license": "GPL-2.0-or-later",
 	"authors": [
+		{
+			"name": "Leesa Ward",
+			"email": "leesa@doubleedesign.com.au"
+		},
 		{
 			"name": "Aki Hamano"
 		}
