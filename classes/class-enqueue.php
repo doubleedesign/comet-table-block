@@ -36,18 +36,24 @@ class Enqueue {
 	 * Enqueue front-end scripts
 	 */
 	public function enqueue_scripts() {
-		wp_register_style(
-			'flexible-table-block',
+//		wp_register_style(
+//			'flexible-table-block',
+//			FTB_URL . '/build/style-index.css',
+//			array(),
+//			filemtime( FTB_PATH . '/build/style-index.css' ),
+//		);
+
+		//$responsive_css = Helper::get_responsive_css();
+		//$block_css      = Helper::get_block_css( '.' . FTB_BLOCK_CLASS );
+		//$css            = Helper::minify_css( $block_css . $responsive_css );
+		//wp_add_inline_style( 'flexible-table-block', $css );
+
+		wp_enqueue_style(
+			'comet-table-block',
 			FTB_URL . '/build/style-index.css',
 			array(),
 			filemtime( FTB_PATH . '/build/style-index.css' ),
 		);
-
-		$responsive_css = Helper::get_responsive_css();
-		$block_css      = Helper::get_block_css( '.' . FTB_BLOCK_CLASS );
-		$css            = Helper::minify_css( $block_css . $responsive_css );
-
-		wp_add_inline_style( 'flexible-table-block', $css );
 	}
 
 	/**

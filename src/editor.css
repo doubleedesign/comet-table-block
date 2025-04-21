@@ -51,9 +51,10 @@
 
 .editor-styles-wrapper .wp-block-comet-table {
   box-sizing: border-box;
+  margin-block: var(--spacing-md);
 }
 .editor-styles-wrapper .wp-block-comet-table > table {
-  width: 100%;
+  min-width: 100%;
 }
 .editor-styles-wrapper .wp-block-comet-table > table thead th,
 .editor-styles-wrapper .wp-block-comet-table > table thead td,
@@ -111,11 +112,14 @@
 }
 .editor-styles-wrapper .wp-block-comet-table > figcaption {
   position: relative;
-  z-index: 1;
+  z-index: 100;
 }
 .editor-styles-wrapper .wp-block-comet-table.is-selected > table th .block-editor-rich-text__editable,
 .editor-styles-wrapper .wp-block-comet-table.is-selected > table td .block-editor-rich-text__editable {
   border: 1px dotted #ccc;
+}
+.editor-styles-wrapper .wp-block-comet-table.is-selected caption {
+  margin-bottom: 1rem;
 }
 .editor-styles-wrapper .wp-block-comet-table.is-selected.show-dot-on-th th::before {
   position: absolute;
@@ -136,22 +140,6 @@
 }
 .editor-styles-wrapper .wp-block-comet-table.is-selected.show-control-button:not(.is-content-only).is-caption-side-top > table {
   margin-top: 40px;
-}
-.editor-styles-wrapper .wp-block-comet-table.is-content-justification-left, .editor-styles-wrapper .wp-block-comet-table.is-content-justification-center, .editor-styles-wrapper .wp-block-comet-table.is-content-justification-right {
-  display: flex;
-  flex-flow: column;
-}
-.editor-styles-wrapper .wp-block-comet-table.is-content-justification-left figcaption, .editor-styles-wrapper .wp-block-comet-table.is-content-justification-center figcaption, .editor-styles-wrapper .wp-block-comet-table.is-content-justification-right figcaption {
-  align-self: stretch;
-}
-.editor-styles-wrapper .wp-block-comet-table.is-content-justification-left {
-  align-items: flex-start;
-}
-.editor-styles-wrapper .wp-block-comet-table.is-content-justification-center {
-  align-items: center;
-}
-.editor-styles-wrapper .wp-block-comet-table.is-content-justification-right {
-  align-items: flex-end;
 }
 .editor-styles-wrapper .wp-block-comet-table .ftb-placeholder {
   font-style: normal;
@@ -389,42 +377,9 @@
   }
 }
 
-.ftb-button-group {
-  display: block;
-}
-.ftb-button-group .components-button {
-  vertical-align: top;
-}
-.ftb-button-group .components-button.components-button.is-small {
-  width: auto;
-  min-width: auto;
-  padding: 6px;
-}
-
-.ftb-base-control-label {
-  display: inline-block;
-  margin-bottom: 8px;
-  font-size: 11px;
-  font-weight: 500;
-  text-transform: uppercase;
-}
-
-.ftb-percent-group {
-  margin-top: -8px;
-}
-.ftb-percent-group:has(+ .components-base-control) {
-  margin-bottom: 16px;
-}
-
-.is-outline-mode .wp-block-flexible-table-block-table.is-selected .rich-text {
-  cursor: initial;
-}
-
-.ftb-placeholder .components-placeholder__instructions {
-  margin-bottom: 0;
-}
-.ftb-placeholder .components-placeholder__fieldset {
-  gap: 16px;
+.editor-sidebar__panel .comet-cell-text-align > .components-flex > .components-base-control {
+  width: 50%;
+  flex-basis: 50%;
 }
 
 /*# sourceMappingURL=editor.css.map */
